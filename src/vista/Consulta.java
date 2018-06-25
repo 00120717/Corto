@@ -30,6 +30,7 @@ import modelo.Filtro;
  * @author LN710Q
  */
 public class Consulta {
+    JFrame Productos;
     public JLabel lblNombre, lblCodigo, lblPrecio,lblCantidad, lblDisponibilidad;
     
     public JTextField nombre,codigo, precio, cantidad;
@@ -48,15 +49,20 @@ public class Consulta {
     private static final int ANCHOC = 130, ALTOC = 30;
     
     DefaultTableModel tm;
+
+
     
     public Consulta(){
-        super("Productos");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(null);
+        
+        super();
+        Productos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Productos.setLayout(null);
         agregarLabels();
         formulario();
         llenarTabla();
-        Container container = getContentPane();
+        Container container = new Container();
+        
+        
         container.add(lblNombre);
         container.add(lblCodigo);
         container.add(lblPrecio);
@@ -77,7 +83,7 @@ public class Consulta {
         container.add(eliminar);
         container.add(limpiar);
         container.add(table);
-        setSize(600,600);
+        container.setSize(600,600);
         eventos();
     }
     
@@ -112,10 +118,10 @@ public class Consulta {
         
         table = new JPanel();
 
-        tipo.addItem("Tipo1");
-        tipo.addItem("Tipo2");
-        tipo.addItem("Tipo3");
-        tipo.addItem("Tipo4");
+        tipo.addItem(1);
+        tipo.addItem(2);
+        tipo.addItem(3);
+        tipo.addItem(4);
         
 
         nombre.setBounds(140, 10, ANCHOC, ALTOC);
@@ -181,8 +187,7 @@ public class Consulta {
             @Override
             public void actionPerformed(ActionEvent e){
                 FiltroDao fd = new FiltroDao();
-                Filtro f = new Filtro(codigo.getText(),tipo.getSelectedItem().toString(),
-                Integer.parseInt(cantidad.getText()),true);
+                Filtro f = new Filtro(codigo.getText(),Integer.parseInt(precio.getText()), Integer.parseInt(cantidad.getText()), true,tipo.getSelectedItem().toString());
                 
                 if(no.isSelected()){
                     f.setDisponibilidad(false);
@@ -203,8 +208,7 @@ public class Consulta {
             @Override
             public void actionPerformed(ActionEvent e){
                 FiltroDao fd = new FiltroDao();
-                Filtro f = new Filtro(codigo.getText(),tipo.getSelectedItem().toString(),
-                Integer.parseInt(cantidad.getText()),true);
+                Filtro f = new Filtro(codigo.getText(),Integer.parseInt(precio.getText()), Integer.parseInt(cantidad.getText()), true,tipo.getSelectedItem().toString());
                 
                 if(no.isSelected()){
                     f.setDisponibilidad(false);
@@ -244,7 +248,7 @@ public class Consulta {
                 JOptionPane.showMessageDialog(null,"El filtro buscado no se ha encontrado");
             }else{
                 nombre.setText(f.getCodigo());
-                codigo.setSelectedItem(f.getCodigo());
+                tipo.setSelectedItem(f.getTipo());
                 cantidad.setText(Integer.toString(f.getCantidad()));
                 
                 if(f.getDisponibilidad()){
@@ -277,11 +281,11 @@ public class Consulta {
         java.awt.EventQueue.invokeLater(new Runnable(){
             @Override
             public void run(){
-                new Consulta().setVisible(true);
+                new Consulta().Productos.setVisible(true);
             }
             
         });
     }
-    
+
     }    
-}
+
